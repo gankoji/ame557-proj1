@@ -1,2 +1,5 @@
 /pythonPort.m~
 *~
+*.aux
+*.log
+
