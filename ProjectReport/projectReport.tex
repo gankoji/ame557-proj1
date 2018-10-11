@@ -1,9 +1,12 @@
+
+
 \documentclass[11pt,twoside,letterpaper]{article}
 
+\usepackage{amsmath}
 \begin{document}
 \title{Orbit Determination via Topocentric Angular Observations}
 \author{Jacob Bailey, Gustavo Lee, Michael Lesnewski}
-\date{October 23, 2018}
+\date{October 16, 2018}
 \maketitle
 
   \begin{abstract}
@@ -60,5 +63,41 @@
   \paragraph{}
   The equatorial position vector of the observer can be found as
 
-  \[x\]
+  \begin{equation}
+    \begin{split}
+      R_n =
+      \left[
+        \frac{R_e}{\sqrt{(1 - (2f -f^2)sin^2\phi)}} + H_n
+        \right]cos\phi_n(cos\theta_n\hat{I} + sin\theta_n\hat{J}) \\+
+      \left[
+        \frac{R_e(1 - f)^2}{\sqrt{(1 - (2f -f^2)sin^2\phi)}} + H_n
+        \right]sin\phi_n\hat{K}
+    \end{split}
+  \end{equation}
+
+  \(R_n\) is the observer's position vector (in Equatorial Coordinate System)
+  
+  \(R_e\) is the equatorial radius of the body (e.g., Earth's Re is 6,378 km)
+  
+  \(f\) is the oblateness (or flattening) of the body (e.g., Earth's f is 0.003353)
+  
+  \(\phi_n\) is the respective geodetic latitude
+  
+  \(\phi'_n\) is the respective geocentric latitude
+  
+  \(H_n\) is the respective altitude
+  
+  \(\theta_n\) is the respective local sidereal time
+
+  The observation unit vector can also be found (in the topocentric
+  coordinate system) via the following:
+
+  \begin{equation}
+    \begin{split}
+      \hat{\rho}_n = cos\del_ncos\alpha_n\hat{I}
+      + cos\del_nsin\alpha_n\hat{J}
+      + sin\del_n\hat{K}
+    \end{split}
+  \end{split}
+
 \end{document}
