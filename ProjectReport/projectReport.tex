@@ -1,5 +1,3 @@
-
-
 \documentclass[11pt,twoside,letterpaper]{article}
 
 \usepackage{amsmath}
@@ -62,6 +60,7 @@
 
   \paragraph{}
   The equatorial position vector of the observer can be found as
+  \cite{Wikipedia_2018}
 
   \begin{equation}
     \begin{split}
@@ -89,15 +88,162 @@
   
   \(\theta_n\) is the respective local sidereal time
 
+  \paragraph{}
+  
   The observation unit vector can also be found (in the topocentric
-  coordinate system) via the following:
+  coordinate system) via the following  \cite{Wikipedia_2018}:
+
+  $\hat{\rho}_n = cos\delta_ncos\alpha_n\hat{I} + cos\delta_nsin\alpha_n\hat{J} + sin\delta_n\hat{K}$
+
+  \subsubsection{Gauss' Algorithm}
+  Once we have in hand at least three line-of-sight observations and
+  the observer's position vector in the equatorial coordinate frame at
+  those times, we can determine the position and velocity vectors of
+  the orbiting object (and thus the classical orbital elements).
+
+  We begin with the relevant time intervals:
+  \begin{equation}
+    \tau_1 = t_1 - t_2
+  \end{equation}
+  \begin{equation}
+    \tau_3 = t_3 - t_2
+  \end{equation}
+  \begin{equation}
+    \tau = t_3 - t_1
+  \end{equation}
+
+  The next step is to find the common scalar product, $D_0$:
+  \begin{equation}
+    D_0 = \hat{\rho_1}\cdot(\hat{\rho_2}\times\hat{\rho_3})
+  \end{equation}
+
+  Followed by the matrix quantities, $D_{mn}$:
+  \begin{equation}
+    D_{11} = R_1\cdot(\hat{\rho_2}\times\hat{\rho_3})
+    \quad D_{12} = R_1\cdot(\hat{\rho_1}\times\hat{\rho_3})
+    \quad D_{13} = R_1\cdot(\hat{\rho_1}\times\hat{\rho_2})
+  \end{equation}
+  \begin{equation}
+    D_{21} = R_2\cdot(\hat{\rho_2}\times\hat{\rho_3})
+    \quad D_{22} = R_2\cdot(\hat{\rho_1}\times\hat{\rho_3})
+    \quad D_{23} = R_2\cdot(\hat{\rho_1}\times\hat{\rho_2})
+  \end{equation}
+  \begin{equation}
+    D_{31} = R_3\cdot(\hat{\rho_2}\times\hat{\rho_3})
+    \quad D_{32} = R_3\cdot(\hat{\rho_1}\times\hat{\rho_3})
+    \quad D_{33} = R_3\cdot(\hat{\rho_1}\times\hat{\rho_2})
+  \end{equation}
+
+  Using the just calculated quantities, we build three coefficients
+  for the scalar position.
 
   \begin{equation}
-    \begin{split}
-      \hat{\rho}_n = cos\del_ncos\alpha_n\hat{I}
-      + cos\del_nsin\alpha_n\hat{J}
-      + sin\del_n\hat{K}
-    \end{split}
-  \end{split}
+    A = \frac{1}{D_0}\left( -D_{12}\frac{\tau_3}{\tau} + D_{22} -D_{32}\frac{\tau_1}{\tau}\right)
+  \end{equation}
 
+  \begin{equation}
+    B = \frac{1}{6D_0}\left( D_{12}\left(\tau_3^2 - \tau^2 \right)\frac{\tau_3}{\tau}
+    + D_{32}\left(\tau^2 - \tau_1^2\right)\frac{\tau_1}{\tau} \right)
+  \end{equation}
+
+  \begin{equation}
+    E = R_2\cdot\hat{\rho_2}
+  \end{equation}
+
+  We will also need the squared magnitude of the second observer position vector
+  \begin{equation}
+    R_2^2 = R_2\cdot R_2
+  \end{equation}
+
+  Using the coefficients just built, we build a polynomial in the
+  scalar distance of the observation. Here, $\mu$ is the gravitational
+  parameter of the focal body of the orbit. 
+
+  \begin{equation}
+    a = -\left(A^2 + 2AE + R_2^2 \right)
+  \end{equation}
+  \begin{equation}
+    b = -2\mu B\left(A+E \right)
+  \end{equation}
+  \begin{equation}
+    c = -{\mu}^2B^2
+  \end{equation}
+
+  These quantities are now the coefficients in an 8th order polynomial
+  in the scalar distance of the second observation, $r_2$.
+
+  \begin{equation}
+    r_2^8 + ar_2^6 + br_2^3 + c = 0
+  \end{equation}
+
+  This polynomial can be solved by any suitable root finding routine,
+  such as the Newton-Rhapson method. We note that since this is a
+  radial distance from the focal body of the orbit, the root must be
+  real. In the event there are multiple real roots of the polynomial,
+  other measurements or data must be used to disambiguate the solution.
+
+  With the orbital distance of the body fixed for one of the
+  observations, we can now discern the slant range of the object from
+  the observer, $\rho_n$.
+
+  \begin{equation}
+    \rho_1 = \frac{1}{D_0}\left[
+      \frac{6\left(D_{31}\frac{\tau_1}{\tau_3} + D_{21}\frac{\tau}{\tau_3}\right)r_2^3
+        + \mu D_{31}\left(\tau^2 - \tau_1^2\right)\frac{\tau_1}{\tau_3}}{6r_2^3
+        + \mu\left(\tau^2 - \tau_3^2\right)} - D_{11}\right]
+  \end{equation}
+
+  \begin{equation}
+    \rho_2 = A + \frac{\mu B}{r_2^3}
+  \end{equation}
+
+  \begin{equation}
+    \rho_3 = \frac{1}{D_0}\left[
+      \frac{6\left(D_{13}\frac{\tau_3}{\tau_1} - D_{23}\frac{\tau}{\tau_1}\right)r_2^3
+        + \mu D_{13}\left(\tau^2 - \tau_3^2\right)\frac{\tau_3}{\tau_1}}{6r_2^3
+        + \mu\left(\tau^2 - \tau_1^2\right)} - D_{33}\right]    
+  \end{equation}
+
+  With the slant ranges in hand, we can now easily calculate the
+  orbital position vectors of the observed body to its focal body,
+  $R_n$.
+
+  \begin{equation}
+    \vec{r}_n = \vec{R}_n + \rho_n{\hat{\rho}}_n
+  \end{equation}
+
+  To find the velocity of the orbiting body, we rely on a series
+  expansion of the orbital motion about the midpoint of the
+  observations.
+
+  \begin{equation}
+    \vec{v}_2 = \frac{1}{f_1g_3 - f_3g_1}\left(-f_3\vec{r}_1 + f_1\vec{r}_3\right)
+  \end{equation}
+
+  Where the expansion terms are:
+
+  \begin{equation}
+    f_1 = 1 - \frac{1}{2}\frac{\mu}{r_2^3}\tau_1^2
+  \end{equation}
+  \begin{equation}
+    f_3 = 1 - \frac{1}{2}\frac{\mu}{r_2^3}\tau_3^2
+  \end{equation}
+  \begin{equation}
+    g_1 = \tau_1 - \frac{1}{6}\frac{\mu}{r_2^3}\tau_1^3
+  \end{equation}
+  \begin{equation}    
+    g_3 = \tau_3 - \frac{1}{6}\frac{\mu}{r_2^3}\tau_3^3
+  \end{equation}
+
+  The orbital determination problem is now complete. Since we have
+  assumed a Keplerian orbit, the entirety of the orbit is defined by
+  the six components of the second position vector and its associated
+  velocity, $\vec{r}_2$ and $\vec{v}_2$.
+
+  \subsection{Laplace's Method}
+  We now turn our attention to the second classical method of orbit
+  determination, that of Laplace. 
+
+  \bibliography{bibliography}{}
+  \bibliographystyle{plain}
 \end{document}
