@@ -411,16 +411,111 @@
   eccentricity, inclination, etc) can be found as in \cite{kluever_2018}.
 
   \section{Results}
+  With the theory of orbital determination in place, we turn to the
+  results. The two methods described above were used to transform a
+  set of observations made of the chinese satellite Tiangong-1, while
+  it was de-orbiting due to a hardware malfunction.
 
-  \section{Conclusion}
-  In summary, we're amazing and you should give us 105\% because
-  we found out your data sucked and didn't make fun of you for it.
+  The observations were taken in the topocentric coordinate system,
+  and reported as 3-tuples of Julian date, right ascension, and
+  declination. The observational data are shown in table
+  \ref{observations}.
 
-  The end. 
-    
+  \begin{table}[]
+    \centering
+    \begin{tabular}{|l|l|l|}
+      \hline
+      Julian Date (Days)& Right Ascension (Degrees)& Declination (Degrees)\\ \hline
+      2458130.5830398300 & 351.0088027 & 28.5903906 \\ \hline
+      2458130.5830409615 & 351.0800657 & 28.6857577 \\ \hline
+      2458130.5830421210 & 351.1562914 & 28.7798921 \\ \hline
+      2458130.5830433145 & 351.2333939 & 28.8757338 \\ \hline
+      2458130.5830444675 & 351.3126571 & 28.9712327 \\ \hline
+    \end{tabular}
+    \caption{Observational Data of Tiangong-1}
+    \label{observations}
+  \end{table}
+
+  We now present the results of the orbital determination methods. As
+  a baseline, we also show TLE data for the satellite's orbit before
+  it's demise, which was found at \cite{tiangong1-orbit}. The
+  ``official'' AFSPC data has been removed from their website, as the
+  satellite is no longer in orbit. The classical elements of the
+  Keplerian orbit are compared between the TLE, Gauss' method, and
+  Laplace's method in table \ref{resultsTable}.
+
+  \begin{table}[]
+    \centering
+    \begin{tabular}{llll}
+      & TLE & Gauss & Laplace \\ \cline{2-4} 
+      \multicolumn{1}{l|}{Semi-Major Axis} & \multicolumn{1}{l|}{6518 km} & \multicolumn{1}{l|}{6728.155 km} & \multicolumn{1}{l|}{6587.1 km} \\ \cline{2-4} 
+      \multicolumn{1}{l|}{Eccentricity} & \multicolumn{1}{l|}{0.0005983} & \multicolumn{1}{l|}{0.0111799} & \multicolumn{1}{l|}{0.0099} \\ \cline{2-4} 
+      \multicolumn{1}{l|}{Inclination} & \multicolumn{1}{l|}{42.7393} & \multicolumn{1}{l|}{42.7647} & \multicolumn{1}{l|}{42.7393} \\ \cline{2-4} 
+      \multicolumn{1}{l|}{Ascending Node} & \multicolumn{1}{l|}{196.1141} & \multicolumn{1}{l|}{345.335} & \multicolumn{1}{l|}{345.3201} \\ \cline{2-4} 
+      \multicolumn{1}{l|}{Arg. of Periapsis} & \multicolumn{1}{l|}{335.0657} & \multicolumn{1}{l|}{66.102} & \multicolumn{1}{l|}{218.1973} \\ \cline{2-4} 
+      \multicolumn{1}{l|}{True Anomaly} & \multicolumn{1}{l|}{25.0237 (MA)} & \multicolumn{1}{l|}{346.0159} & \multicolumn{1}{l|}{193.9572} \\ \cline{2-4} 
+      \multicolumn{1}{l|}{Epoch (Julian)} & \multicolumn{1}{l|}{2458210.171586} & \multicolumn{1}{l|}{2458130.5830} & \multicolumn{1}{l|}{2458130.5830} \\ \cline{2-4} 
+    \end{tabular}
+    \caption{Orbital Determination Results}
+    \label{resultsTable}
+  \end{table}
+
+  It is clear that while the general size and shape of the orbit's
+  determined from the observations agree - to some extent - with the
+  published TLE data, the orientation of the orbital plane with
+  respect to the earth does not. This could be explained by the
+  difference in epochs, as the latest TLE data was observed more than
+  80 Julian days after our observation set was taken, and the
+  satellite was de-orbiting. It could also be explained by the
+  inadequacy of our observations, which spanned a very short arc of
+  the satellite's orbit.
+
+  Finally, we show results for the prediction phase. After the initial
+  orbit determination was complete, we propagated the satellites
+  position to two points in the future: 60 minutes after the
+  observation epoch, and 80 days after the epoch. This process was
+  repeated for both determination methods. The results of each
+  propagation is shown in table \ref{propagationResults}.
+
+  \begin{table}[]
+    \centering
+    \begin{tabular}{lllll}
+      & \multicolumn{2}{l}{Gauss} & \multicolumn{2}{l}{Laplace} \\
+      & 60 min & 80 d & 60 min & 80 d \\ \cline{2-5} 
+      \multicolumn{1}{l|}{f} & \multicolumn{1}{l|}{-138.564} & \multicolumn{1}{l|}{161.813} & \multicolumn{1}{l|}{78.934} & \multicolumn{1}{l|}{-123.929} \\ \cline{2-5} 
+      \multicolumn{1}{l|}{rx} & \multicolumn{1}{l|}{775.549} & \multicolumn{1}{l|}{-5346.675} & \multicolumn{1}{l|}{1811.145} & \multicolumn{1}{l|}{752.547} \\ \cline{2-5} 
+      \multicolumn{1}{l|}{ry} & \multicolumn{1}{l|}{-5111.923} & \multicolumn{1}{l|}{-2430.357} & \multicolumn{1}{l|}{-4916.406} & \multicolumn{1}{l|}{4817.465} \\ \cline{2-5} 
+      \multicolumn{1}{l|}{rz} & \multicolumn{1}{l|}{-4392.244} & \multicolumn{1}{l|}{-3426.826} & \multicolumn{1}{l|}{-3970.561} & \multicolumn{1}{l|}{4482.459} \\ \cline{2-5} 
+    \end{tabular}
+    \caption{Orbital Propagation Results}
+    \label{propagationResults}
+  \end{table}
   
+  \section{Conclusion}
+  Without a baseline with an epoch much closer to the observations
+  contained here, it's difficult to comment on the accuracy of either
+  orbital determination method with serious confidence. However, we
+  can make a few small notes. It appears that Laplace's method
+  produced a better estimate of the size/shape orbital parameters
+  $a, e,$ and $i$, at least when compared to the TLE data available.
 
+  The propagation results also show considerable variability between
+  the two methods. This is likely an artifact of the considerable
+  disagreement between the method's results for orbital
+  orientation. The magnitude of the difference in predicted position
+  between the two methods is roughly 1200 km at the 60 minute
+  prediction point, but that grows significantly to 12,000 km at the
+  80 day mark. Given that this is roughly the length of the major axis
+  of the orbit, the two predictions are clearly out of phase, and
+  differences in predicted mean motion have caused divergence in the
+  solution.
 
+  If we were to depend on these results for a real world application,
+  such as predicting the next patch of observability for the object,
+  we would be hopelessly lost when turning our telescopes to the
+  sky. Ideally, a significantly larger number of observations would be
+  available, and Gauss' least squares methods could be used to refine
+  the estimate of the orbit.   
   
   \bibliography{bibliography}{}
   \bibliographystyle{plain}

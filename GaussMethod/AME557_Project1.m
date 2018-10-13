@@ -13,7 +13,7 @@ clear OBS;
 lat = 32.37416; %Observation site latitude (deg);
 long = 111.01694; %Observation site longitude (deg);
 alt = .757; %Observation site altitude (km)
-TOF = 4; %hours
+TOF = 24*80; %hours
 lst = JD2GMST(obs.JD) -long;
 
 
