@@ -1,7 +1,5 @@
 function [ r2, v2, gamma2, f2 ] = propagate_position( a, e, f, flight_time )
 
-% AME557, HW2, Problem 4.16
-% Gustavo Lee
 mu = 3.986*10^5;    %km^3/s^2
 n = sqrt(mu/a^3);
 
