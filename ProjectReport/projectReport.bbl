@@ -1,12 +1,22 @@
 \begin{thebibliography}{1}
 
 \bibitem{Wikipedia_2018}
-Anonymous.
+Anon.
 \newblock Gauss' method, Sep 2018.
+
+\bibitem{bate_mueller_white_2015}
+Roger~R. Bate, Donald~D. Mueller, and Jerry~E. White.
+\newblock {\em Fundamentals of astrodynamics}.
+\newblock Dover Publications, 2015.
 
 \bibitem{curtis_2014}
 Howard~D. Curtis.
 \newblock {\em Orbital mechanics for engineering students}.
 \newblock Elsevier, 2014.
+
+\bibitem{kluever_2018}
+Craig~A. Kluever.
+\newblock {\em Space flight dynamics}.
+\newblock Wiley, 2018.
 
 \end{thebibliography}
