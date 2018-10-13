@@ -39,7 +39,7 @@
     
   \paragraph{}
   Gauss developed his method of orbit determination to solve a
-  difficult problem: on January 1st 1801, Giuseppe Piazzi discovered
+  troubling problem: on January 1st 1801, Giuseppe Piazzi discovered
   Ceres and was able to track it for 40 days before it was lost in the
   glare of the sun. As it continued its solar orbit, the problem was
   to determine the orbital path, and predict the position at which it
@@ -66,7 +66,7 @@
   The equatorial position vector of the observer can be found as
  
 
-  \begin{equation}
+  \begin{equation} \label{obsPos}
     \begin{split}
       R_n =
       \left[
@@ -97,7 +97,10 @@
   The observation unit vector can also be found (in the topocentric
   coordinate system) via the following  \cite{Wikipedia_2018}:
 
-  $\hat{\rho}_n = cos\delta_ncos\alpha_n\hat{I} + cos\delta_nsin\alpha_n\hat{J} + sin\delta_n\hat{K}$
+  \begin{equation}\label{losVec}
+    \hat{\rho}_n = cos\delta_ncos\alpha_n\hat{I}
+    + cos\delta_nsin\alpha_n\hat{J} + sin\delta_n\hat{K}
+  \end{equation}
 
   \subsubsection{Gauss' Algorithm}
   Once we have in hand at least three line-of-sight observations and
@@ -242,12 +245,175 @@
   The orbital determination problem is now complete. Since we have
   assumed a Keplerian orbit, the entirety of the orbit is defined by
   the six components of the second position vector and its associated
-  velocity, $\vec{r}_2$ and $\vec{v}_2$.
+  velocity, $\vec{r}_2$ and $\vec{v}_2$ \cite{kluever_2018}.
 
   \subsection{Laplace's Method}
   We now turn our attention to the second classical method of orbit
-  determination, that of Laplace. 
+  determination, that of Simon Pierre Laplace. This treatment will
+  closely follow the one presented in \cite{bate_mueller_white_2015}.
 
+  As before with Gauss' method, we expect the observations to only
+  contain angular quantities, such as right ascension and declination,
+  in the topocentric coordinate system. Begin by expressing the
+  observations as line of sight vectors in the topocentric coordinate
+  system using equations \ref{losVec}. Additionally, we require the
+  position of the observer at the observation epochs, found via
+  equation \ref{obsPos}.
+
+  \subsubsection{The Orbital Position Vector}
+  Noting that the position vector of the orbiting body at each epoch
+  can be written as
+
+  \begin{equation} \label{focalPos}
+    \vec{r} = \rho_n\hat{\rho}_n + \vec{R}_n
+  \end{equation}
+
+  with $\rho_n$ the (as yet undetermined) slant range from the observer
+  to the body, we differentiate the position vector twice to arrive at
+  a relation between the body's position and the assumed
+  (Keplerian) form of its dynamics:
+
+  \begin{equation} \label{posDiff}
+    \hat{\rho}_2\ddot{\rho}_2 + 2\dot{\hat{\rho}}_2\dot{\rho_2}
+    + \left( \ddot{\hat{\rho}}_2 + \frac{\mu}{r^3}\hat{\rho}_2 \right)\rho_2
+    = -\left( \ddot{\vec{R}}_2 + \mu\frac{\vec{R}_2}{r^3} \right)
+  \end{equation}
+
+  Here, we note that $r^3$ is simply the magnitude of the observed
+  body's distance from its orbital focus. Also of note is that the
+  above equation is only used for the second observation. The first
+  and third of the set will be used in the numerical differentiation
+  process to determine the derivatives of the line of sight vector, as
+  follows.
+
+  \begin{equation} \label{rhoDot}
+    \dot{\hat{\rho}}(t) =
+    \frac{2t - t_2 - t_3}{(t_1 - t_2)(t_1 - t_3)}\hat{\rho}_1
+      + \frac{2t - t_1 - t_3}{(t_2 - t_1)(t_2 - t_3)}\hat{\rho}_2
+      + \frac{2t - t_1 - t_2}{(t_3 - t_1)(t_3 - t_2)}\hat{\rho}_3
+  \end{equation}
+
+  \begin{equation} \label{rhoDDot}
+    \ddot{\hat{\rho}}(t) =
+    \frac{2}{(t_1 - t_2)(t_1 - t_3)}\hat{\rho}_1
+      + \frac{2}{(t_2 - t_1)(t_2 - t_3)}\hat{\rho}_2
+      + \frac{2}{(t_3 - t_1)(t_3 - t_2)}\hat{\rho}_3
+  \end{equation}
+
+  Writing \ref{posDiff} for the central observation, and including the
+  information from \ref{rhoDot} and \ref{rhoDDot}, we note that
+  \ref{posDiff} is now a three component equation in four unknowns
+  $\rho, \dot{\rho}, \ddot{\rho},$ and $r$. Taking the components of
+  this equation and writing the system in matrix form, we can attempt
+  a solution via Cramer's rule (with some additional elimination in
+  the matrix):
+
+  \begin{equation} \label{D}
+    D = 2\begin{vmatrix}
+    \hat{\rho}_I& \dot{\hat{\rho}}_I& \ddot{\hat{\rho}}_I \\
+    \hat{\rho}_J& \dot{\hat{\rho}}_J& \ddot{\hat{\rho}}_J \\
+    \hat{\rho}_K& \dot{\hat{\rho}}_K& \ddot{\hat{\rho}}_K \\
+    \end{vmatrix}
+  \end{equation}
+
+  Applying Cramer's rule to equation \ref{posDiff}, we can see that
+
+  \begin{equation} \label{slantRange1}
+    D\rho = -\begin{vmatrix}
+    \hat{\rho}_I& 2\dot{\hat{\rho}}_I& \ddot{R}_I
+    + \mu R_I/r^3 \\
+    \hat{\rho}_J& 2\dot{\hat{\rho}}_J& \ddot{R}_J
+    + \mu R_J/r^3 \\
+    \hat{\rho}_K& 2\dot{\hat{\rho}}_K& \ddot{R}_K
+    + \mu R_K/r^3 \\
+    \end{vmatrix}
+  \end{equation}
+
+  We can further simplify this to
+
+  \begin{equation} \label{slantRange2}
+    \rho = \frac{-2D_1}{D} - \frac{2\mu D_2}{f^3D} , D \neq 0
+  \end{equation}
+
+  With
+
+  \begin{equation} \label{D1}
+    D_1 = -2\begin{vmatrix}
+    \hat{\rho}_I& \dot{\hat{\rho}}_I& \ddot{R}_I \\
+    \hat{\rho}_J& \dot{\hat{\rho}}_J& \ddot{R}_J \\
+    \hat{\rho}_K& \dot{\hat{\rho}}_K& \ddot{R}_K \\
+    \end{vmatrix}
+  \end{equation}
+
+  \begin{equation} \label{D2}
+    D_2 = -2\frac{\mu}{r^3}\begin{vmatrix}
+    \hat{\rho}_I& \dot{\hat{\rho}}_I& R_I \\
+    \hat{\rho}_J& \dot{\hat{\rho}}_J& R_J \\
+    \hat{\rho}_K& \dot{\hat{\rho}}_K& R_K \\
+    \end{vmatrix}
+  \end{equation}
+
+  This yields an expression for the slant range, which is dependent
+  only on the still unknown magnitude of the orbiting body's focal
+  position vector $r$. Dotting \ref{focalPos} with itself, we find
+
+  \begin{equation} \label{focalMag}
+    r^2 = \rho^2 + 2\rho \hat{\rho}\cdot\vec{R} + R^2
+  \end{equation}
+
+  Once \ref{focalMag} is solved, the resulting magnitude can be
+  substituted to \ref{slantRange2} to find the slant range, and the
+  position vector can be determined from \ref{focalPos}.
+
+  \subsubsection{Determining the Velocity Vector}
+  If we return to \ref{posDiff} and again apply Cramer's rule, we find
+  that the velocity can also be expressed as a function of determinants.
+
+  \begin{equation} \label{slantVelocity}
+    D\dot{\rho} = -D_3 - \frac{\mu}{r^3}D_4
+  \end{equation}
+
+  With
+
+  \begin{equation} \label{D3}
+    D_3 = \begin{vmatrix}
+    \hat{\rho}_I& \ddot{R}_I& \ddot{\hat{\rho}}_I \\
+    \hat{\rho}_J& \ddot{R}_J& \ddot{\hat{\rho}}_J \\
+    \hat{\rho}_K& \ddot{R}_K& \ddot{\hat{\rho}}_K \\
+    \end{vmatrix}
+  \end{equation}
+
+  \begin{equation} \label{D4}
+    D_4 = \begin{vmatrix}
+    \hat{\rho}_I& R_I& \ddot{\hat{\rho}}_I \\
+    \hat{\rho}_J& R_J& \ddot{\hat{\rho}}_J \\
+    \hat{\rho}_K& R_K& \ddot{\hat{\rho}}_K \\
+    \end{vmatrix}
+  \end{equation}
+
+  We can then solve for the time derivative of the slant range as
+
+  \begin{equation} \label{slantDot}
+    \dot{\rho} = -\frac{D_3}{D} - \frac{\mu}{r^3}\frac{D_4}{D}
+  \end{equation}
+
+  Finally, with the slant range and slant velocity solved, we can
+  differentiate \ref{focalPos} and obtain the velocity vector:
+
+  \begin{equation}\label{focalVel}
+    \vec{v} = \dot{\vec{r}} =
+    \dot{\rho}\hat{\rho} + \rho\dot{\hat{\rho}} + \dot{\vec{R}}
+  \end{equation}
+
+  With the position and velocity vectors defined in three space within
+  a suitable coordinate system, the Keplerian orbit is fully
+  defined. Classical elements of the orbit (semi-major axis,
+  eccentricity, inclination, etc) can be found as in \cite{kluever_2018}.
+    
+  
+
+
+  
   \bibliography{bibliography}{}
   \bibliographystyle{plain}
 \end{document}
