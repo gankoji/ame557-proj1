@@ -6,7 +6,7 @@ function [r0,v0,oe0, rf, vf, oef] = OrbitCompLaplace(lat, lst, alt, ra, dec, JD,
 %ra - 3x1 vector of Right ascensions in SEZ frame (in degrees)
 %dec - 3x1 vector of declinations in SEZ frame (in degrees)
 %JD - 3x1 vector of Julian Dates corresponding to the 3 observations
-%TOF - Time of flight for orbit propagation
+%TOF - Time of flight for orbit propagation (minutes)
 
 for i = 1:numel(JD)
     L(:,i) = [cosd(dec(i))*cosd(ra(i));...
@@ -63,15 +63,11 @@ v0 = rhodot*L(:,2)+rho*Ldot(:,2)+ECI_vecdot;
 [ a, e, i, Omega, w, f ] = rv_to_orbital_elements(r0,v0);
 oe0=[a;e;i;Omega;w;f];
 
+<<<<<<< HEAD
 [ ~, ~, ~, f2 ] = propagate_position( a, e, f, 80*24*3600 );
+=======
+[ ~, ~, ~, f2 ] = propagate_position( a, e, f, TOF*60 );
+>>>>>>> jbailey
 
 [ rf, vf ] = orbital_elements_to_rv( a, e, i, Omega, w, f2  );
 oef=[a;e;i;Omega;w;f2];
-
-
-
-
-
-
-
-
