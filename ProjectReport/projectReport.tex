@@ -32,6 +32,19 @@
   last century to fit models to observational data in all branches of
   science.
 
+  Laplace proposed his method for orbit determination some 30 years
+  earlier, first published in 1780
+  \cite{bate_mueller_white_2015}. Laplace's method centers around a
+  series expansion of the orbit near the observation epochs, and is
+  relatively brittle with respect to the spacing (or lack thereof) of
+  the observations. Interestingly, this and other extrapolation
+  problems led Laplace to the idea of fitting many measurements to a
+  given curve to satisfy a theoretical relationship (such as Newton's
+  gravitational law). However, Laplace was unable to completely
+  formulate such a method to his satisfaction, and the world would
+  wait until Gauss published his method of least squares to have a
+  suitable process. 
+
   
   \section{Theory of Orbit Determination}
   
@@ -421,11 +434,11 @@
   declination. The observational data are shown in table
   \ref{observations}.
 
-  \begin{table}[]
+  \begin{table}
     \centering
     \begin{tabular}{|l|l|l|}
       \hline
-      Julian Date (Days)& Right Ascension (Degrees)& Declination (Degrees)\\ \hline
+      Julian Date (Days)& Right Ascension (Deg)& Declination (Deg)\\ \hline
       2458130.5830398300 & 353.2148120 & 31.2289572 \\ \hline
       2458130.5830409615 & 353.2950670 & 31.3242459 \\ \hline
       2458130.5830421210 & 353.3776091 & 31.4220063 \\ \hline
@@ -438,13 +451,12 @@
 
   We now present the results of the orbital determination methods. As
   a baseline, we also show TLE data for the satellite's orbit before
-  it's demise, which was found at \cite{tiangong1-orbit}. The
-  ``official'' AFSPC data has been removed from their website, as the
-  satellite is no longer in orbit. The classical elements of the
-  Keplerian orbit are compared between the TLE, Gauss' method, and
-  Laplace's method in table \ref{resultsTable}.
+  it's demise, which was provided in the project reference
+  material. The classical elements of the Keplerian orbit are compared
+  between the TLE, Gauss' method, and Laplace's method in table
+  \ref{resultsTable}.
 
-  \begin{table}[]
+  \begin{table}
     \centering
     \begin{tabular}{llll}
       & TLE & Gauss & Laplace \\ \cline{2-4} 
@@ -477,27 +489,37 @@
   repeated for both determination methods. The results of each
   propagation is shown in table \ref{propagationResults}.
 
-  \begin{table}[]
+  \begin{table}
     \centering
     \begin{tabular}{lllll}
       & \multicolumn{2}{l}{Gauss} & \multicolumn{2}{l}{Laplace} \\
       & 60 min & 80 d & 60 min & 80 d \\ \cline{2-5} 
-      \multicolumn{1}{l|}{f} & \multicolumn{1}{l|}{-138.564} & \multicolumn{1}{l|}{161.813} & \multicolumn{1}{l|}{78.934} & \multicolumn{1}{l|}{-123.929} \\ \cline{2-5} 
-      \multicolumn{1}{l|}{rx} & \multicolumn{1}{l|}{775.549} & \multicolumn{1}{l|}{-5346.675} & \multicolumn{1}{l|}{1811.145} & \multicolumn{1}{l|}{752.547} \\ \cline{2-5} 
-      \multicolumn{1}{l|}{ry} & \multicolumn{1}{l|}{-5111.923} & \multicolumn{1}{l|}{-2430.357} & \multicolumn{1}{l|}{-4916.406} & \multicolumn{1}{l|}{4817.465} \\ \cline{2-5} 
-      \multicolumn{1}{l|}{rz} & \multicolumn{1}{l|}{-4392.244} & \multicolumn{1}{l|}{-3426.826} & \multicolumn{1}{l|}{-3970.561} & \multicolumn{1}{l|}{4482.459} \\ \cline{2-5} 
+      \multicolumn{1}{l|}{f} & \multicolumn{1}{l|}{-138.564} &
+      \multicolumn{1}{l|}{161.813} & \multicolumn{1}{l|}{78.934} & \multicolumn{1}{l|}{-123.929} \\ \cline{2-5} 
+      \multicolumn{1}{l|}{r_x} & \multicolumn{1}{l|}{775.549} &
+      \multicolumn{1}{l|}{-5346.675} & \multicolumn{1}{l|}{1811.145} & \multicolumn{1}{l|}{752.547} \\ \cline{2-5} 
+      \multicolumn{1}{l|}{r_y} & \multicolumn{1}{l|}{-5111.923} &
+      \multicolumn{1}{l|}{-2430.357} & \multicolumn{1}{l|}{-4916.406} & \multicolumn{1}{l|}{4817.465} \\ \cline{2-5} 
+      \multicolumn{1}{l|}{r_z} & \multicolumn{1}{l|}{-4392.244} &
+      \multicolumn{1}{l|}{-3426.826} & \multicolumn{1}{l|}{-3970.561} & \multicolumn{1}{l|}{4482.459} \\ \cline{2-5} 
     \end{tabular}
     \caption{Orbital Propagation Results}
     \label{propagationResults}
   \end{table}
   
   \section{Conclusion}
-  Without a baseline with an epoch much closer to the observations
-  contained here, it's difficult to comment on the accuracy of either
-  orbital determination method with serious confidence. However, we
-  can make a few small notes. It appears that Laplace's method
-  produced a better estimate of the size/shape orbital parameters
-  $a, e,$ and $i$, at least when compared to the TLE data available.
+  In comparing the determined orbits with the given TLE data, it is
+  clear that there is significant disagreement, particularly with the
+  argument of periapsis. Eccentricity also differs significantly,
+  although Gauss' method appears to have better estimated the
+  eccentricity than Laplace's. The errors in true anomaly are likely a
+  function of both the misplaced argument of periapsis and the
+  difference in epoch between the observations and the TLE dataset. It
+  is interesting to note the relative agreement between the two
+  determination methods. This leaves the impression that the two
+  methods are converging to a given orbit, which could likely be
+  improved with more observational data and averaging techniques such
+  as least squares.
 
   The propagation results also show considerable variability between
   the two methods. This is likely an artifact of the considerable
