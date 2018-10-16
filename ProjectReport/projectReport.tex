@@ -454,7 +454,10 @@
   it's demise, which was provided in the project reference
   material. The classical elements of the Keplerian orbit are compared
   between the TLE, Gauss' method, and Laplace's method in table
-  \ref{resultsTable}.
+  \ref{resultsTable}. We also note that a function from
+  \cite{koblick_2010} was used as part of both determination methods
+  to convert between Julian dates and Greenwich Mean Sidereal Time
+  (GMST).
 
   \begin{table}
     \centering
@@ -493,15 +496,15 @@
     \centering
     \begin{tabular}{lllll}
       & \multicolumn{2}{l}{Gauss} & \multicolumn{2}{l}{Laplace} \\
-      & 60 min & 80 d & 60 min & 80 d \\ \cline{2-5} 
-      \multicolumn{1}{l|}{f} & \multicolumn{1}{l|}{-138.564} &
-      \multicolumn{1}{l|}{161.813} & \multicolumn{1}{l|}{78.934} & \multicolumn{1}{l|}{-123.929} \\ \cline{2-5} 
-      \multicolumn{1}{l|}{r_x} & \multicolumn{1}{l|}{775.549} &
-      \multicolumn{1}{l|}{-5346.675} & \multicolumn{1}{l|}{1811.145} & \multicolumn{1}{l|}{752.547} \\ \cline{2-5} 
-      \multicolumn{1}{l|}{r_y} & \multicolumn{1}{l|}{-5111.923} &
-      \multicolumn{1}{l|}{-2430.357} & \multicolumn{1}{l|}{-4916.406} & \multicolumn{1}{l|}{4817.465} \\ \cline{2-5} 
-      \multicolumn{1}{l|}{r_z} & \multicolumn{1}{l|}{-4392.244} &
-      \multicolumn{1}{l|}{-3426.826} & \multicolumn{1}{l|}{-3970.561} & \multicolumn{1}{l|}{4482.459} \\ \cline{2-5} 
+      & 60 min & 80 d & 60 min & 80 d \\
+      \cline{2-5} \multicolumn{1}{l|}{f} & \multicolumn{1}{l|}{-138.564} &
+                                                                           \multicolumn{1}{l|}{161.813} & \multicolumn{1}{l|}{78.934} & \multicolumn{1}{l|}{-123.929} \\
+      \cline{2-5} \multicolumn{1}{l|}{$r_x$} & \multicolumn{1}{l|}{775.549} & \multicolumn{1}{l|}{-5346.675} & \multicolumn{1}{l|}{1811.145} & \multicolumn{1}{l|}{752.547} \\
+      \cline{2-5} \multicolumn{1}{l|}{$r_y$} & \multicolumn{1}{l|}{-5111.923} &
+                                                                                \multicolumn{1}{l|}{-2430.357} & \multicolumn{1}{l|}{-4916.406} & \multicolumn{1}{l|}{4817.465} \\
+      \cline{2-5} \multicolumn{1}{l|}{$r_z$} & \multicolumn{1}{l|}{-4392.244} &
+                                                                                \multicolumn{1}{l|}{-3426.826} & \multicolumn{1}{l|}{-3970.561} & \multicolumn{1}{l|}{4482.459} \\
+      \cline{2-5} 
     \end{tabular}
     \caption{Orbital Propagation Results}
     \label{propagationResults}

@@ -86,6 +86,7 @@ v2 = Lg/r2m*B+Lg*S
 %Computes orbital elements from R2 and V2
 oe0 = RVtoOE(r2,v2)
 %Solves Keplers equation by propagate true anomly to time TOF
+TOF = TOF/60; % Convert TOF to hours for Kepler_Prob
 f2 = Kepler_Prob(oe0(1),oe0(2),oe0(6),TOF)
 %Orbital elements at time TOF
 oef = [oe0(1:5),f2];
