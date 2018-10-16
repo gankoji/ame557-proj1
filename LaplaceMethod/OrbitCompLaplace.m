@@ -63,11 +63,8 @@ v0 = rhodot*L(:,2)+rho*Ldot(:,2)+ECI_vecdot;
 [ a, e, i, Omega, w, f ] = rv_to_orbital_elements(r0,v0);
 oe0=[a;e;i;Omega;w;f];
 
-<<<<<<< HEAD
-[ ~, ~, ~, f2 ] = propagate_position( a, e, f, 80*24*3600 );
-=======
+% Convert TOF to seconds for propagation
 [ ~, ~, ~, f2 ] = propagate_position( a, e, f, TOF*60 );
->>>>>>> jbailey
 
 [ rf, vf ] = orbital_elements_to_rv( a, e, i, Omega, w, f2  );
 oef=[a;e;i;Omega;w;f2];
